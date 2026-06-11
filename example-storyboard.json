@@ -1,0 +1,96 @@
+{
+  "title": "Launch of OpenJobAI Server",
+  "format": "landscape",
+  "duration": 60,
+  "colors": {
+    "canvas": "#F5E8D0",
+    "ink": "#4A3F35",
+    "muted": "#A89F92",
+    "accent": "#D9534F"
+  },
+  "scenes": [
+    {
+      "type": "hero",
+      "kicker": "Ready to power AI hiring?",
+      "title": "Give agents live French job data",
+      "accentWord": "Live"
+    },
+    {
+      "type": "statement",
+      "title": "Developers waste hours scraping job boards",
+      "accentWord": "Wasting"
+    },
+    {
+      "type": "statement",
+      "title": "No‑install, zero‑dependency solution",
+      "accentWord": "Zero"
+    },
+    {
+      "type": "cards",
+      "kicker": "What OpenJobAI delivers",
+      "items": [
+        {
+          "name": "Official France Travail API",
+          "desc": "Certified source, no reverse‑engineered hacks"
+        },
+        {
+          "name": "Structured Salary & ROME codes",
+          "desc": "Ready‑to‑query JSON schema"
+        },
+        {
+          "name": "Live market statistics",
+          "desc": "Real‑time demand trends per sector"
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "lead": "Early adopters see instant impact",
+      "stats": [
+        {
+          "value": 87,
+          "label": "Speed increase % over scrapers"
+        },
+        {
+          "value": 42,
+          "label": "Jobs queried per second"
+        },
+        {
+          "value": 5,
+          "label": "Minutes to deploy"
+        }
+      ],
+      "footer": "All numbers from the first 3‑day beta"
+    },
+    {
+      "type": "terminal",
+      "kicker": "One‑line launch",
+      "lines": [
+        {
+          "cmd": "docker run -p 8080:8080 openjobai/server"
+        },
+        {
+          "ok": "Server listening on http://localhost:8080"
+        }
+      ]
+    },
+    {
+      "type": "statement",
+      "title": "Query salaries with a single GET",
+      "accentWord": "Single"
+    },
+    {
+      "type": "statement",
+      "title": "Integrate in any language, no SDK needed",
+      "accentWord": "Any"
+    },
+    {
+      "type": "cta",
+      "title": "Start building smarter agents today",
+      "links": [
+        "https://github.com/openjobai/server",
+        "https://openjobai.io/docs"
+      ]
+    }
+  ]
+}

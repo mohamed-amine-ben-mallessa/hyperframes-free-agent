@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HyperFrames Free Agent — storyboard",
+  "type": "object",
+  "required": ["scenes"],
+  "properties": {
+    "title": {"type": "string"},
+    "format": {"enum": ["landscape", "portrait"]},
+    "duration": {"type": "number"},
+    "colors": {"type": "object",
+      "properties": {"canvas":{"type":"string"},"ink":{"type":"string"},"muted":{"type":"string"},"accent":{"type":"string"}}},
+    "scenes": {"type": "array", "items": {"type": "object", "required": ["type"],
+      "properties": {"type": {"enum": ["hero","statement","cards","stats","terminal","cta"]}}}}
+  }
+}
