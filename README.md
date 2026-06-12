@@ -13,9 +13,16 @@
 </p>
 
 <p align="center">
+  <a href="https://hyperframes.heygen.com"><img src="assets/logo-hyperframes.svg" alt="HyperFrames" height="30"></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://claude.com/claude-code"><img src="assets/claude-code.gif" alt="Claude Code" height="42"></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://sollea-ai.com"><img src="assets/logo-sollea.png" alt="Sollea AI" height="36"></a>
+</p>
+<p align="center">
   <sub>
-    🎬 <a href="https://hyperframes.heygen.com">HyperFrames</a> &nbsp;·&nbsp;
-    🧠 <a href="https://openrouter.ai">OpenRouter</a> (free cascade) &nbsp;·&nbsp;
+    🎬 <a href="https://hyperframes.heygen.com">HyperFrames</a> render &nbsp;·&nbsp;
+    🧠 <a href="https://openrouter.ai">OpenRouter</a> free cascade &nbsp;·&nbsp;
     🐤 <a href="https://claude.com/claude-code">Claude Code</a>-ready &nbsp;·&nbsp;
     🏢 built by <a href="https://sollea-ai.com">Sollea AI</a>
   </sub>
