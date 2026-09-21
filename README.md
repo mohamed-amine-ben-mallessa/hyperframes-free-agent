@@ -1,13 +1,15 @@
 <h1 align="center">🎥 HyperFrames Free Agent</h1>
 
 <p align="center">
-  <b>Type a prompt. Get a 60-second launch video. Powered by free AI models — no paid API, no cloud render.</b>
+  <b>Every AI video generator wants your credit card. This one runs on free models and renders on your own machine.</b><br>
+  Type a prompt. Get a directed 60-second launch video. No paid API, no cloud render, no watermark.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/AI-OpenRouter%20free%20tier-6566F1?logo=openai&logoColor=white" alt="OpenRouter free">
   <img src="https://img.shields.io/badge/render-HyperFrames-blue" alt="HyperFrames">
   <img src="https://img.shields.io/badge/python-%E2%89%A53.8-blue?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/dependencies-0-brightgreen" alt="Zero dependencies">
   <img src="https://img.shields.io/badge/output-MP4%20landscape%20%2F%20portrait-success" alt="Output">
   <img src="https://img.shields.io/badge/license-MIT-yellow" alt="MIT">
 </p>
@@ -16,21 +18,14 @@
   <a href="https://hyperframes.heygen.com"><img src="assets/logo-hyperframes.svg" alt="HyperFrames" height="30"></a>
   &nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://claude.com/claude-code"><img src="assets/claude-code.gif" alt="Claude Code" height="42"></a>
-  &nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="https://sollea-ai.com"><img src="assets/logo-sollea.png" alt="Sollea AI" height="36"></a>
 </p>
 <p align="center">
   <sub>
     🎬 <a href="https://hyperframes.heygen.com">HyperFrames</a> render &nbsp;·&nbsp;
     🧠 <a href="https://openrouter.ai">OpenRouter</a> free cascade &nbsp;·&nbsp;
-    🐤 <a href="https://claude.com/claude-code">Claude Code</a>-ready &nbsp;·&nbsp;
-    🏢 built by <a href="https://sollea-ai.com">Sollea AI</a>
+    🐤 <a href="https://claude.com/claude-code">Claude Code</a>-ready
   </sub>
 </p>
-
----
-
-Every "AI video generator" wants your credit card. This one runs on **OpenRouter's free model tier** and renders locally with **HyperFrames** — the open-source HTML→video engine.
 
 ```bash
 python agent.py "An open-source MCP server for the official France Travail job API"
@@ -44,9 +39,67 @@ hyperframes render --format mp4
 </p>
 <p align="center"><sub>👆 generated end-to-end from a single text prompt by a <b>free</b> model — <a href="media/agent-output.mp4">full MP4</a> · <a href="example-storyboard.json">the storyboard it wrote</a></sub></p>
 
+---
+
+## Why this actually works (and most LLM-video tools don't)
+
+Ask a free model to write animation code and you get broken GSAP timing, empty frames, and
+elements stacked on top of each other. So this pipeline **never lets the LLM near the
+animation**:
+
+```
+prompt ──► free LLM cascade ──► STORYBOARD JSON ──► deterministic template ──► HyperFrames ──► MP4
+           (writes structure)    (the contract)      (owns all the bug-prone     (local render)
+                                                       animation code)
+```
+
+The LLM only does what it's genuinely good at — **structure and copy**. The renderer owns
+the timeline. The result is reliable output no matter which model happened to answer.
+
+## The free model cascade
+
+It tries capable **`:free`** OpenRouter models in order, falling back on rate-limits and
+errors so you almost always get a result:
+
+```
+llama-3.3-70b → qwen3-next-80b → gemma-4-31b → gpt-oss-120b → nemotron-3-super-120b → hermes-3-405b
+```
+
+All free. Bring your own free key from [openrouter.ai](https://openrouter.ai).
+
+## Quick start
+
+```bash
+# 1. free key from openrouter.ai
+export OPENROUTER_API_KEY=sk-or-...
+
+# 2. prompt → storyboard → composition (index.html)
+python agent.py "your product pitch here" --format landscape
+#   --format portrait  for reels / TikTok / shorts (1080×1920)
+
+# 3. render with HyperFrames
+hyperframes render --format mp4      # or --format gif
+```
+
+You get `storyboard.json` (the editable plan) and `index.html` (the composition). Tweak the
+JSON and re-render anytime — the storyboard is the contract, not a black box.
+
+## Install
+
+| Surface | Install | Needs |
+|---|---|---|
+| **Anywhere** (clone and run) | `git clone https://github.com/mohamed-amine-ben-mallessa/hyperframes-free-agent` | Python ≥ 3.8 — standard library only, nothing to `pip install` |
+| **Rendering** | `npm i -g hyperframes` | The [HyperFrames CLI](https://hyperframes.heygen.com) |
+| **The LLM** | free key at [openrouter.ai](https://openrouter.ai) | `OPENROUTER_API_KEY` |
+| **From an agent** | Point [Claude Code](https://claude.com/claude-code) or any coding agent at this repo | The agent runs `agent.py` for you |
+
+Total cost at rest: **$0**.
+
 ## Auto vs. hand-directed — pick your altitude
 
-This repo gives you the **automatic** path: a prompt becomes a clean video in one command. For a flagship launch, you can also **hand-direct** the same engine for a richer result. Both render with HyperFrames; same brand language, different effort.
+This repo gives you the **automatic** path: a prompt becomes a clean video in one command.
+For a flagship launch, you can also **hand-direct** the same engine for a richer result.
+Both render with HyperFrames; same brand language, different effort.
 
 <table>
 <tr><td align="center" width="50%"><b>🤖 This agent — auto from a prompt</b></td><td align="center" width="50%"><b>🎬 Hand-directed pipeline</b></td></tr>
@@ -73,44 +126,6 @@ This repo gives you the **automatic** path: a prompt becomes a clean video in on
 
 > Same `render_video.py` template underneath. The agent fills the storyboard automatically; for the hand-directed version see the companion repo [**launch-video-hyperframes-francetravail-mcp**](https://github.com/mohamed-amine-ben-mallessa/launch-video-hyperframes-francetravail-mcp). Start auto, refine by hand only where it pays off.
 
-## Why it actually works (and most LLM-video tools don't)
-
-The free models **never write animation code** — that's where they fail (broken GSAP timing, empty frames, overlaps). Instead:
-
-```
-prompt ──► free LLM cascade ──► STORYBOARD JSON ──► deterministic template ──► HyperFrames ──► MP4
-           (writes structure)    (the contract)      (owns all the bug-prone     (local render)
-                                                       animation code)
-```
-
-The LLM only does what it's good at — **structure and copy**. The renderer owns the timeline. Result: reliable output regardless of which model answered.
-
-## The free model cascade
-
-It tries capable **`:free`** OpenRouter models in order, falling back on rate-limits/errors so you almost always get a result:
-
-```
-llama-3.3-70b → qwen3-next-80b → gemma-4-31b → gpt-oss-120b → nemotron-3-super-120b → hermes-3-405b
-```
-
-All free. Bring your own free key from [openrouter.ai](https://openrouter.ai).
-
-## Quick start
-
-```bash
-# 1. free key from openrouter.ai
-export OPENROUTER_API_KEY=sk-or-...
-
-# 2. prompt → storyboard → composition (index.html)
-python agent.py "your product pitch here" --format landscape
-#   --format portrait  for reels / TikTok / shorts (1080×1920)
-
-# 3. render with HyperFrames
-hyperframes render --format mp4      # or --format gif
-```
-
-You get `storyboard.json` (the editable plan) and `index.html` (the composition). Tweak the JSON and re-render anytime.
-
 ## What the agent produces
 
 A storyboard with a launch arc the renderer understands:
@@ -124,12 +139,6 @@ A storyboard with a launch arc the renderer understands:
 | `cta` | Closing line + link pills |
 
 All deterministic, lint-clean, and render-safe.
-
-## Requirements
-
-- **Python ≥ 3.8** (standard library only — no pip install)
-- A free **[OpenRouter API key](https://openrouter.ai)**
-- The **[HyperFrames CLI](https://hyperframes.heygen.com)** (`npm i -g hyperframes`) for rendering
 
 ## Files
 
@@ -147,10 +156,18 @@ storyboard.json     the generated, editable plan (LLM output)
 
 ## Credits
 
-Built on **[HyperFrames](https://hyperframes.heygen.com)** (HeyGen, open-source HTML→video) and **[OpenRouter](https://openrouter.ai)** free tier. Works great driven from **[Claude Code](https://claude.com/claude-code)** and any agent. Made by **[Sollea AI](https://sollea-ai.com)**.
+Built on **[HyperFrames](https://hyperframes.heygen.com)** (HeyGen, open-source HTML→video)
+and the **[OpenRouter](https://openrouter.ai)** free tier. Works great driven from
+**[Claude Code](https://claude.com/claude-code)** and any coding agent.
 
 > Independent open-source project. Not affiliated with HeyGen, OpenRouter, Anthropic, or France Travail. Logos and trademarks belong to their respective owners.
 
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+---
+
+<p align="center">
+  <sub>Built by <a href="https://github.com/mohamed-amine-ben-mallessa">Mohamed Amine Ben Mallessa</a> · ⭐ star it if your first render surprised you</sub>
+</p>
